@@ -21,10 +21,17 @@ public class GamePanel extends JPanel implements Runnable{
     //Thread para o game loop
     Thread gameThread;
 
+    //eventos
+    KeyHandler keys = new KeyHandler();
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true); // + desempenho
+
+        //aplicar eventos no JPanel
+        this.addKeyListener(keys);
+        this.setFocusable(true);
     }
     public void startGameThread(){
         gameThread = new Thread(this);
