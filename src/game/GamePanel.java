@@ -1,5 +1,7 @@
 package game;
 
+import entity.Player;
+
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,6 +28,9 @@ public class GamePanel extends JPanel implements Runnable{
 
     //FPS
     final int FPS = 60;
+
+    //Player
+    Player player = new Player(this, keys);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
