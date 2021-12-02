@@ -24,6 +24,9 @@ public class GamePanel extends JPanel implements Runnable{
     //eventos
     KeyHandler keys = new KeyHandler();
 
+    //FPS
+    final int FPS = 60;
+
     public GamePanel(){
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
@@ -39,11 +42,35 @@ public class GamePanel extends JPanel implements Runnable{
     }
     @Override
     public void run() {
-        while(gameThread != null){
-           //gameLoop
-            update();
+        //FPS
+        double interval = 1000000000/FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
 
-            repaint(); //chama o metodo paintComponent
+        long timer = 0;
+        int drawCount = 0;
+
+        while(gameThread != null){
+            // FPS
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / interval;
+            timer += currentTime - lastTime;
+            lastTime = currentTime;
+
+            if (delta >= 1) {
+                //gameLoop
+                update();
+                repaint(); //chama o metodo paintComponent
+
+                delta--; // resetar delta
+                drawCount++;
+            }
+            if (timer >= 1000000000){
+                System.out.println("FPS: "+ drawCount);
+                drawCount = 0;
+                timer = 0;
+            }
         }
     }
     public void update(){
