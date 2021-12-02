@@ -11,7 +11,9 @@ public class Game {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Area para JPanels
-
+        GamePanel gamePanel = new GamePanel();
+        window.add(gamePanel);
+        window.pack();
         //
         window.setLocationRelativeTo(null);
         window.setVisible(true);
