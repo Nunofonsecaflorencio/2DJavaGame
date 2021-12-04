@@ -13,10 +13,17 @@ public class Player extends Entity{
     GamePanel gp;
     KeyHandler keys;
 
+    public final int screenX;
+    public final int screenY;
+
     public Player(GamePanel gp, KeyHandler keys){
         this.gp = gp;
         this.keys = keys;
         spriteInterval =20;
+
+        screenX = gp.SCREEN_WIDTH /2;
+        screenY = gp.SCREEN_HEIGHT/2;
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -31,8 +38,8 @@ public class Player extends Entity{
     }
 
     public void setDefaultValues(){
-        x = 100;
-        y = 100;
+        x = (gp.TILE_SIZE * 25) - (gp.TILE_SIZE/2);
+        y = (gp.TILE_SIZE * 25) - (gp.TILE_SIZE/2);
         speed = 4;
     }
     public void update(){
@@ -81,6 +88,6 @@ public class Player extends Entity{
         else if (spriteNum == 2)
             image = p2;
 
-       g2.drawImage(image, x, y, gp.TILE_SIZE, gp.TILE_SIZE, null);
+       g2.drawImage(image, screenX, screenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
     }
 }

@@ -21,6 +21,11 @@ public class GamePanel extends JPanel implements Runnable{
     public final int SCREEN_WIDTH = SCREEN_COL * TILE_SIZE; // 728 pixels
     public final int SCREEN_HEIGHT = SCREEN_ROW * TILE_SIZE; // 576 pixels
 
+    public final int WORLD_COL = 50;
+    public final int WORLD_ROW = 50;
+    public final int WORLD_WIDTH = WORLD_COL * TILE_SIZE; // 728 pixels
+    public final int WORLD_HEIGHT = WORLD_ROW * TILE_SIZE; // 576 pixels
+
     //Thread para o game loop
     Thread gameThread;
 
@@ -31,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
 
     //Player
-    Player player = new Player(this, keys);
+    public Player player = new Player(this, keys);
 
     //Tiles
     TileManager tileM = new TileManager(this);
@@ -76,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
                 drawCount++;
             }
             if (timer >= 1000000000){
-                System.out.println("FPS: "+ drawCount);
+                //System.out.println("FPS: "+ drawCount);
                 drawCount = 0;
                 timer = 0;
             }

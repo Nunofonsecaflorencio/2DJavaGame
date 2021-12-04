@@ -21,10 +21,10 @@ public class TileManager {
         this.gp = gp;
 
         tiles = new Tile[3];
-        mapTile = new int[gp.SCREEN_ROW][gp.SCREEN_COL];
+        mapTile = new int[gp.WORLD_ROW][gp.WORLD_ROW];
 
         getTileImage();
-        loadMap("res/maps/map01.txt");
+        loadMap("res/maps/world01.txt");
     }
     public void getTileImage(){
         try{
@@ -35,7 +35,7 @@ public class TileManager {
             tiles[1].image = ImageIO.read(new File("res/tiles/wall1.png"));
 
             tiles[2] = new Tile();
-            tiles[2].image = ImageIO.read(new File("res/tiles/wall1.png"));
+            tiles[2].image = ImageIO.read(new File("res/tiles/wall2.png"));
             //System.out.println(new File("res/tiles/sky.png").getCanonicalPath());
 
         }catch(IOException e){
@@ -48,12 +48,13 @@ public class TileManager {
             BufferedReader bfr = new BufferedReader(fr);
 
             try{
-                for (int i = 0; i< gp.SCREEN_ROW; i++){
+                for (int i = 0; i< gp.WORLD_ROW; i++) {
                     String[] line = bfr.readLine().split(" ");
-                    for(int j = 0; j< gp.SCREEN_COL; j++){
+                    for (int j = 0; j < gp.WORLD_COL; j++) {
                         mapTile[i][j] = Integer.parseInt(line[j]);
                     }
                 }
+
             }catch(IOException ex){
                 System.out.println("Erro ao ler arquivo.");
             }
@@ -62,16 +63,21 @@ public class TileManager {
         }
     }
     public void draw(Graphics2D g2){
-        int x = 0;
-        int y = 0;
+        for (int i = 0; i< gp.WORLD_ROW; i++){
+            for(int j = 0; j< gp.WORLD_COL; j++){
+                int x = j* gp.TILE_SIZE;
+                int y = i* gp.TILE_SIZE;
+                int inScreenX = x - gp.player.x + gp.player.screenX;
+                int inScreenY = y - gp.player.y + gp.player.screenY;
 
-        for (int i = 0; i< gp.SCREEN_ROW; i++){
-            for(int j = 0; j< gp.SCREEN_COL; j++){
-                g2.drawImage(tiles[mapTile[i][j]].image, x, y, gp.TILE_SIZE, gp.TILE_SIZE, null);
-                x += gp.TILE_SIZE;
+                if(x + gp.TILE_SIZE> gp.player.x - gp.player.screenX &&
+                    x - gp.TILE_SIZE< gp.player.x + gp.player.screenX &&
+                    y + gp.TILE_SIZE> gp.player.y - gp.player.screenY &&
+                    y - gp.TILE_SIZE< gp.player.y + gp.player.screenY) {
+                    g2.drawImage(tiles[mapTile[i][j]].image, inScreenX, inScreenY, gp.TILE_SIZE, gp.TILE_SIZE, null);
+                }
+
             }
-            x = 0;
-            y += gp.TILE_SIZE;
         }
     }
 }
